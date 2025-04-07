@@ -7,7 +7,7 @@ from crewai.project import CrewBase, agent, crew, task
 
 @CrewBase
 class Stockbot():
-    """Stockbot crew"""
+    """Stockbot crew for financial analysis and investment recommendations"""
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -18,16 +18,30 @@ class Stockbot():
     # If you would like to add tools to your agents, you can learn more about it here:
     # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def researcher(self) -> Agent:
+    def financial_analyst(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'],
+            config=self.agents_config['financial_analyst'],
             verbose=True
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def investment_advisor(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'],
+            config=self.agents_config['investment_advisor'],
+            verbose=True
+        )
+
+    @agent
+    def research_analyst(self) -> Agent:
+        return Agent(
+            config=self.agents_config['research_analyst'],
+            verbose=True
+        )
+
+    @agent
+    def sec_filings_expert(self) -> Agent:
+        return Agent(
+            config=self.agents_config['sec_filings_expert'],
             verbose=True
         )
 
@@ -35,16 +49,28 @@ class Stockbot():
     # task dependencies, and task callbacks, check out the documentation:
     # https://docs.crewai.com/concepts/tasks#overview-of-a-task
     @task
-    def research_task(self) -> Task:
+    def financial_analysis_task(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'],
+            config=self.tasks_config['financial_analysis_task']
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def investment_recommendation_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'],
-            output_file='report.md'
+            config=self.tasks_config['investment_recommendation_task']
+        )
+
+    @task
+    def market_research_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['market_research_task']
+        )
+
+    @task
+    def sec_filings_analysis_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['sec_filings_analysis_task'],
+            output_file='stock_analysis_report.md'
         )
 
     @crew
